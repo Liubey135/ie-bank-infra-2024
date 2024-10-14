@@ -22,6 +22,13 @@
         },
         "location": {
             "value": "North Europe"
+        },
+        "sqlConnectionString": {
+            "value": "Server=tcp:aguadamillas-dbsrv-dev.database.windows.net,1433;Database=aguadamillas-db-dev;User Id={your-username};Password={your-password};"
+        },
+        "apiBaseUrl": {
+            "value": "https://aguadamillas-be-dev.azurewebsites.net"
         }
+
     }
 }

@@ -10,6 +10,7 @@ param appServiceAPIEnvVarDBPASS string
 param appServiceAPIDBHostDBUSER string
 param appServiceAPIDBHostFLASK_APP string
 param appServiceAPIDBHostFLASK_DEBUG string
+param sqlConnectionString string
 @allowed([
   'nonprod'
   'prod'
@@ -90,6 +91,29 @@ resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
       ftpsState: 'FtpsOnly'
       appCommandLine: 'pm2 serve /home/site/wwwroot --spa --no-daemon'
       appSettings: []
+    }
+  }
+}
+
+
+resource apiAppService 'Microsoft.Web/sites@2021-02-01' = {
+  name: appServiceAPIAppName
+  location: location
+  properties: {
+    serverFarmId: appServicePlan.id
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'SQLALCHEMY_DATABASE_URI'
+          value: sqlConnectionString
+        },{
+          name: 'FLASK_ENV'
+          value: 'production'
+        },{
+          name: 'CORS_ALLOWED_ORIGINS'  // Optionally add CORS settings if frontend and backend are on different domains
+          value: '*'
+        }
+      ]
     }
   }
 }
